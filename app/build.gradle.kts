@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.apollo.plugin)
 }
 
 android {
@@ -42,16 +43,16 @@ android {
     }
 }
 
-//apollo {
-//    service("github") {
-//        packageName.set("de.herosoftware.mobile.myherocodingchallenge")
-//        introspection {
-//            endpointUrl.set("https://api.github.com/graphql")
-//            headers.put("Authorization", "Bearer ${properties["github_token"]}")
-//            schemaFile.set(file("src/main/graphql/schema.graphqls"))
-//        }
-//    }
-//}
+apollo {
+    service("github") {
+        packageName.set("de.herosoftware.mobile.myherocodingchallenge")
+        introspection {
+            endpointUrl.set("https://api.github.com/graphql")
+            headers.put("Authorization", "Bearer ${properties["github_token"]}")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        }
+    }
+}
 
 dependencies {
 

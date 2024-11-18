@@ -1,0 +1,29 @@
+query Repositories($query: String!, $limit: Int = 50) {
+    search(query: $query, first: $limit, type: REPOSITORY) {
+        nodes {
+            __typename
+            ... on Repository {
+                name
+                shortDescriptionHTML
+                stargazerCount
+                url
+                primaryLanguage {
+                    name
+                    color
+                }
+                updatedAt
+                repositoryTopics(first: 5) {
+                    nodes {
+                        topic {
+                            name
+                        }
+                    }
+                }
+                owner {
+                    login
+                    avatarUrl
+                }
+            }
+        }
+    }
+}
