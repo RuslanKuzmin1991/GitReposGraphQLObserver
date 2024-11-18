@@ -1,5 +1,5 @@
-query Repositories($query: String!, $limit: Int = 50) {
-    search(query: $query, first: $limit, type: REPOSITORY) {
+query Repositories($query: String!, $limit: Int = 50, $cursor: String) {
+    search(query: $query, first: $limit, after: $cursor, type: REPOSITORY) {
         nodes {
             __typename
             ... on Repository {
@@ -24,6 +24,10 @@ query Repositories($query: String!, $limit: Int = 50) {
                     avatarUrl
                 }
             }
+        }
+        pageInfo {
+            endCursor
+            hasNextPage
         }
     }
 }
