@@ -3,8 +3,9 @@ package com.example.gitreposgraphqlobserver.data.api
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.example.gitreposgraphqlobserver.RepositoriesQuery
+import javax.inject.Inject
 
-class RepositoryApiGraphQL(
+class RepositoryApiGraphQL @Inject constructor(
     private val appoloClient: ApolloClient,
 ) : RepositoryApi {
     override suspend fun fetchRepositories(

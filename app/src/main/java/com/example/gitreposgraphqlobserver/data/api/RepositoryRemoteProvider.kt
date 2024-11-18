@@ -6,16 +6,16 @@ import com.example.gitreposgraphqlobserver.domain.RepositoryProvider
 import com.example.gitreposgraphqlobserver.domain.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class RepositoryRemoteProvider(private val api: RepositoryApi) : RepositoryProvider {
+class RepositoryRemoteProvider @Inject constructor(private val api: RepositoryApi) : RepositoryProvider {
     override suspend fun getRepositories(
         name: String,
         cursor: String?
     ): Flow<ResultWrapper<PaginatedRepositories, String>> {
         return flow {
             emit(ResultWrapper.Loading())
-            val response = api.fetchRepositories(name, cursor)
-            when (response) {
+            when (val response = api.fetchRepositories(name, cursor)) {
                 is ApiResponse.Failure -> {
                     emit(ResultWrapper.Failure(error = response.error?.message ?: "Error"))
                     emit(ResultWrapper.Loading())
