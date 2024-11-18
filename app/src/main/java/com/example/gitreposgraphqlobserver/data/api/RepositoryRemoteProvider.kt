@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class RepositoryRemoteProvider @Inject constructor(private val api: RepositoryApi) : RepositoryProvider {
+class RepositoryRemoteProvider @Inject constructor(private val api: RepositoryApi) :
+    RepositoryProvider {
     override suspend fun getRepositories(
         name: String,
         cursor: String?
@@ -18,7 +19,6 @@ class RepositoryRemoteProvider @Inject constructor(private val api: RepositoryAp
             when (val response = api.fetchRepositories(name, cursor)) {
                 is ApiResponse.Failure -> {
                     emit(ResultWrapper.Failure(error = response.error?.message ?: "Error"))
-                    emit(ResultWrapper.Loading())
                 }
 
                 is ApiResponse.Success -> {

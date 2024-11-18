@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
+import com.example.gitreposgraphqlobserver.presenter.screen.RepositoriesScreen
 import com.example.gitreposgraphqlobserver.ui.theme.GitReposGraphQLObserverTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,8 +29,7 @@ class MainActivity : ComponentActivity() {
                     },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    Text(
-                        text = "SomeText",
+                    RepositoriesScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

@@ -12,7 +12,11 @@ class RepositoryApiGraphQL @Inject constructor(
         searchQuery: String,
         cursor: String?
     ): ApiResponse<RepositoriesQuery.Data> {
-        val query = RepositoriesQuery(searchQuery, limit = Optional.present(50), cursor = Optional.present(cursor))
+        val query = RepositoriesQuery(
+            searchQuery,
+            limit = Optional.present(50),
+            cursor = Optional.present(cursor)
+        )
         val response = appoloClient
             .query(query)
             .execute()

@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "GITHUB_TOKEN", "\"${properties["github_token"]}\"")
+        buildConfigField("String", "GITHUB_TOKEN", "\"${properties["local.github_token"]}\"")
     }
 
     buildTypes {
@@ -50,7 +50,7 @@ apollo {
         packageName.set("com.example.gitreposgraphqlobserver")
         introspection {
             endpointUrl.set("https://api.github.com/graphql")
-            headers.put("Authorization", "Bearer ${properties["github_token"]}")
+            headers.put("Authorization", "Bearer ${properties["local.github_token"]}")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
@@ -76,6 +76,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.apollo.runtime)
     implementation(libs.dagger.hilt)
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-
+    implementation(libs.hilt.navigation)
+    kapt(libs.hilt.compiler)
 }

@@ -2,7 +2,6 @@ package com.example.gitreposgraphqlobserver.di
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
-import com.example.gitreposgraphqlobserver.BuildConfig
 import com.example.gitreposgraphqlobserver.data.api.RepositoryApi
 import com.example.gitreposgraphqlobserver.data.api.RepositoryApiGraphQL
 import com.example.gitreposgraphqlobserver.data.api.RepositoryRemoteProvider
@@ -13,6 +12,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
+
+//Temp
+const val token = "temp"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -39,7 +41,7 @@ class AppModule {
             .okHttpClient(okHttpClient)
             .addHttpHeader(
                 name = "Authorization",
-                "Bearer ${BuildConfig.GITHUB_TOKEN}",
+                "Bearer $token",
             )
             .build()
     }
