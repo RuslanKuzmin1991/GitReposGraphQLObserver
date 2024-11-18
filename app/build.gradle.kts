@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.apollo.plugin)
+    kotlin("kapt")
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -45,7 +47,7 @@ android {
 
 apollo {
     service("github") {
-        packageName.set("de.herosoftware.mobile.myherocodingchallenge")
+        packageName.set("com.example.gitreposgraphqlobserver")
         introspection {
             endpointUrl.set("https://api.github.com/graphql")
             headers.put("Authorization", "Bearer ${properties["github_token"]}")
@@ -71,4 +73,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.coil)
+    implementation(libs.apollo.runtime)
+    implementation(libs.dagger.hilt)
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
 }
