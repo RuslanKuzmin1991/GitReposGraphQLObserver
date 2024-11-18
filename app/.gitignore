@@ -1,0 +1,69 @@
+# Gradle files
+.gradle/
+build/
+
+# Java and Kotlin binaries
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA and Android Studio files
+.idea/
+*.iml
+*.ipr
+*.iws
+*.class
+
+# Keystore files (do not commit your keystore files!)
+*.jks
+*.keystore
+
+# Log files
+*.log
+
+# Android specific
+*.apk
+*.ap_
+*.dex
+*.class
+*.so
+*.map
+*.lock
+
+# Android Studio crash reports
+crashlytics/
+
+# Generated files
+captures/
+output/
+
+# Local configuration files
+local.properties
+*.orig
+
+# Dependency directories
+/.gradle/
+/build/
+/captures/
+
+# Project-specific generated files
+gen/
+.idea/workspace.xml
+.idea/libraries/
+
+# Exclude auto-generated .externalNativeBuild files
+.externalNativeBuild/
+
+# Exclude Android build cache
+.gradle/cache/
+
+# Exclude gradle wrapper files
+/gradle/wrapper/
+
+# Exclude misc files
+.DS_Store
+*.swp
+*.swo
+*~
+Thumbs.db
