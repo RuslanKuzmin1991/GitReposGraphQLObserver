@@ -3,7 +3,6 @@ package com.example.gitreposgraphqlobserver.presenter.view
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -90,14 +89,12 @@ fun RepositoryItem(
                     )
                 }
             }
-
             Button(
                 onClick = {
                     try {
                         openInBrowser(context, repository.url)
                     } catch (error: Exception) {
                         //TODO: Temp. Needs to be improved
-                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
                     }
                 }, modifier = Modifier.padding(start = 8.dp)
             ) {

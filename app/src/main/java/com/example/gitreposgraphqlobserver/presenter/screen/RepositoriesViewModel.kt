@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gitreposgraphqlobserver.data.entity.PaginatedRepositories
 import com.example.gitreposgraphqlobserver.domain.RepositoryProvider
-import com.example.gitreposgraphqlobserver.domain.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,8 +23,8 @@ class RepositoriesViewModel @Inject constructor(
             _uiState.update { currentValue ->
                 currentValue.copy(
                     items = emptyList(),
-                    isRefreshing = false,
-                    isLoading = false, cursor = null
+                    isLoading = false,
+                    cursor = null
                 )
             }
 
@@ -35,34 +34,30 @@ class RepositoriesViewModel @Inject constructor(
 
     fun getRepositories(name: String) {
         viewModelScope.launch {
+            _uiState.update { currentValue ->
+                currentValue.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
             provider.getRepositories(name, _uiState.value.cursor).collect { result ->
-                when (result) {
-                    is ResultWrapper.Failure -> handle(result.error)
-                    is ResultWrapper.Loading -> showLoading()
-                    is ResultWrapper.Success -> showData(result)
+                if (result.isSuccess) {
+                    showData(result.getOrNull())
+                } else {
+                    handle(result.exceptionOrNull()?.message ?: "Error")
                 }
             }
         }
     }
 
-    private suspend fun showData(result: ResultWrapper.Success<PaginatedRepositories, String>) {
+    private suspend fun showData(data: PaginatedRepositories?) {
         _uiState.emit(
             _uiState.value.copy(
-                items = _uiState.value.items + result.data.items,
+                items = _uiState.value.items + (data?.items ?: emptyList()),
                 isLoading = false,
-                isRefreshing = false,
                 error = null,
-                cursor = result.data.endCursor,
-                hasNextPage = result.data.hasNextPage
-            )
-        )
-    }
-
-    private suspend fun showLoading() {
-        if (!_uiState.value.isRefreshing) _uiState.emit(
-            _uiState.value.copy(
-                isLoading = true,
-                error = null
+                cursor = data?.endCursor,
+                hasNextPage = data?.hasNextPage ?: false,
             )
         )
     }
@@ -71,8 +66,7 @@ class RepositoriesViewModel @Inject constructor(
         _uiState.emit(
             _uiState.value.copy(
                 error = error,
-                isLoading = false,
-                isRefreshing = false
+                isLoading = false
             )
         )
     }

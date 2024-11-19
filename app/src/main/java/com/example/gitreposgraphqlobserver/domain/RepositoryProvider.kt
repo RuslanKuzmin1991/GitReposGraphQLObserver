@@ -7,5 +7,5 @@ interface RepositoryProvider {
     suspend fun getRepositories(
         name: String,
         cursor: String?
-    ): Flow<ResultWrapper<PaginatedRepositories, String>>
+    ): Flow<Result<PaginatedRepositories>>
 }
