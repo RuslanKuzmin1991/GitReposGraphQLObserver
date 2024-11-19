@@ -5,6 +5,8 @@ import com.apollographql.apollo.network.okHttpClient
 import com.example.gitreposgraphqlobserver.data.api.RepositoryApi
 import com.example.gitreposgraphqlobserver.data.api.RepositoryApiGraphQL
 import com.example.gitreposgraphqlobserver.data.api.RepositoryRemoteProvider
+import com.example.gitreposgraphqlobserver.domain.GetRepoUseCase
+import com.example.gitreposgraphqlobserver.domain.GetRepoUseCaseImpl
 import com.example.gitreposgraphqlobserver.domain.RepositoryProvider
 import dagger.Module
 import dagger.Provides
@@ -53,5 +55,11 @@ class AppModule {
     @Provides
     fun provideRepositoriesProvider(api: RepositoryApi): RepositoryProvider {
         return RepositoryRemoteProvider(api)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUseCase(provider: RepositoryProvider): GetRepoUseCase {
+        return GetRepoUseCaseImpl(provider)
     }
 }

@@ -3,7 +3,7 @@ package com.example.gitreposgraphqlobserver.presenter.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gitreposgraphqlobserver.data.entity.PaginatedRepositories
-import com.example.gitreposgraphqlobserver.domain.RepositoryProvider
+import com.example.gitreposgraphqlobserver.domain.GetRepoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesViewModel @Inject constructor(
-    private val provider: RepositoryProvider
+    private val useCase: GetRepoUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -40,12 +40,11 @@ class RepositoriesViewModel @Inject constructor(
                     error = null
                 )
             }
-            provider.getRepositories(name, _uiState.value.cursor).collect { result ->
-                if (result.isSuccess) {
-                    showData(result.getOrNull())
-                } else {
-                    handle(result.exceptionOrNull()?.message ?: "Error")
-                }
+            val result = useCase.invoke(name, _uiState.value.cursor)
+            if (result.isSuccess) {
+                showData(result.getOrNull())
+            } else {
+                handle(result.exceptionOrNull()?.message ?: "Error")
             }
         }
     }
