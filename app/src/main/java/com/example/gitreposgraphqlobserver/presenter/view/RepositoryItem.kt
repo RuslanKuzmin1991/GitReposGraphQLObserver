@@ -3,6 +3,7 @@ package com.example.gitreposgraphqlobserver.presenter.view
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.gitreposgraphqlobserver.data.entity.Repository
 
 @Composable
-fun RepositoryItem(repository: Repository) {
+fun RepositoryItem(
+    repository: Repository
+) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -82,15 +86,20 @@ fun RepositoryItem(repository: Repository) {
                         Spacer(modifier = Modifier.width(4.dp))
                     }
                     Text(
-                        text = repository.language,
-                        style = MaterialTheme.typography.bodyMedium
+                        text = repository.language, style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
 
             Button(
-                onClick = { openInBrowser(context, repository.url) },
-                modifier = Modifier.padding(start = 8.dp)
+                onClick = {
+                    try {
+                        openInBrowser(context, repository.url)
+                    } catch (error: Exception) {
+                        //TODO: Temp. Needs to be improved
+                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                    }
+                }, modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text("Open")
             }
@@ -99,6 +108,28 @@ fun RepositoryItem(repository: Repository) {
 }
 
 fun openInBrowser(context: Context, url: String) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    context.startActivity(intent)
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
+    } catch (error: Exception) {
+        throw error
+    }
+}
+
+@Preview(showBackground = false)
+@Composable
+fun RepositoryItemPreview() {
+    val repo = Repository(
+        "Swift repo",
+        "some description",
+        0,
+        "null",
+        "swift",
+        null,
+        "some data",
+        "Johh Doe",
+        "url",
+
+        )
+    RepositoryItem(repo)
 }

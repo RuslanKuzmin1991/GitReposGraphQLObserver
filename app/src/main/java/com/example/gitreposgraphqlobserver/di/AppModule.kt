@@ -13,9 +13,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-//Temp
-const val token = "temp"
-
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
