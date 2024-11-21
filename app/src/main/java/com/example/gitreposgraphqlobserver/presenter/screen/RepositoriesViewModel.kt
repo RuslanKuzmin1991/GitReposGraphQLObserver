@@ -40,12 +40,11 @@ class RepositoriesViewModel @Inject constructor(
                     error = null
                 )
             }
-            provider.getRepositories(name, _uiState.value.cursor).collect { result ->
-                if (result.isSuccess) {
-                    showData(result.getOrNull())
-                } else {
-                    handle(result.exceptionOrNull()?.message ?: "Error")
-                }
+            val result = provider.getRepositories(name, _uiState.value.cursor)
+            if (result.isSuccess) {
+                showData(result.getOrNull())
+            } else {
+                handle(result.exceptionOrNull()?.message ?: "Error")
             }
         }
     }
